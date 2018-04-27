@@ -28,8 +28,8 @@ $tasks = array(
     array(
         'classname' => 'local_hide_inactive_courses\task\hide_courses',
         'blocking' => 0,
-        'minute' => '*',
-        'hour' => '*',
+        'minute' => '0',
+        'hour' => '0',
         'day' => '*',
         'dayofweek' => '*',
         'month' => '*'
