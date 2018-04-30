@@ -111,7 +111,6 @@ Feature: Hide Inactive Courses
     And I am on site homepage
     Then I should see "Inactive Course"
     And I should see "Active Course"
-    And "//a[@class='dimmed'][contains(.,'Inactive Course')]" "xpath_element" should exist
     And I log out
     When I log in as "teststudent"
     And I am on site homepage
