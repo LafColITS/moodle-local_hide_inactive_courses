@@ -24,7 +24,7 @@ Feature: Hide Inactive Courses
     And I enrol "testteacher" user as "Teacher"
     And I enrol "teststudent" user as "Student"
     And I log out
-  
+
     When I log in as "testadmin"
     And I am on site homepage
     And I follow "Active Course"
@@ -43,12 +43,12 @@ Feature: Hide Inactive Courses
     And I am on site homepage
     And I follow "Inactive Course"
     And I log out
-  
+
     When I log in as "admin"
     And I run the scheduled task "\local_hide_inactive_courses\task\hide_courses"
     And I am on site homepage
     And I log out
-  
+
     When I log in as "testteacher"
     And I am on site homepage
     Then I should see "Inactive Course"
@@ -58,7 +58,7 @@ Feature: Hide Inactive Courses
     And I am on site homepage
     Then I should see "Inactive Course"
     And I should see "Active Course"
-  
+
   @javascript
   Scenario: Has not been visited by enrolled user
     Given the following "courses" exist:
@@ -82,7 +82,7 @@ Feature: Hide Inactive Courses
     And I enrol "testteacher" user as "Teacher"
     And I enrol "teststudent" user as "Student"
     And I log out
-  
+
     When I log in as "testadmin"
     And I am on site homepage
     And I follow "Active Course"
@@ -101,12 +101,12 @@ Feature: Hide Inactive Courses
     And I am on site homepage
     And I should see "Inactive Course"
     And I log out
-  
+
     When I log in as "admin"
     And I run the scheduled task "\local_hide_inactive_courses\task\hide_courses"
     And I am on site homepage
     And I log out
-  
+
     When I log in as "testteacher"
     And I am on site homepage
     Then I should see "Inactive Course"
@@ -143,7 +143,7 @@ Feature: Hide Inactive Courses
     And I enrol "testteacher" user as "Teacher"
     And I enrol "teststudent" user as "Student"
     And I log out
-  
+
     When I log in as "testadmin"
     And I am on site homepage
     And I follow "Active Course"
@@ -162,12 +162,12 @@ Feature: Hide Inactive Courses
     And I am on site homepage
     And I should see "Inactive Course"
     And I log out
-  
+
     When I log in as "admin"
     And I run the scheduled task "\local_hide_inactive_courses\task\hide_courses"
     And I am on site homepage
     And I log out
-  
+
     When I log in as "testteacher"
     And I am on site homepage
     Then I should see "Inactive Course"
