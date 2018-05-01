@@ -72,7 +72,7 @@ class hide_courses extends \core\task\scheduled_task {
                     // Email any instructors.
                     // Find users with Teacher role.
                     $context = $DB->get_record('context', array('instanceid' => $course->id, 'contextlevel' => 50));
-                    $role_assignments = $DB->get_records(
+                    $roleassignments = $DB->get_records(
                         'role_assignments',
                         array(
                             'contextid' => $context->id,
@@ -81,7 +81,7 @@ class hide_courses extends \core\task\scheduled_task {
                     );
 
                     // If there are teachers, build an email and send it to each of them.
-                    if (count($role_assignments) > 0) {
+                    if (count($roleassignments) > 0) {
                         $noreplyuser = \core_user::get_noreply_user();
                         $from = new stdClass();
                         $from->customheaders = 'Auto-Submitted: auto-generated';
@@ -96,7 +96,7 @@ class hide_courses extends \core\task\scheduled_task {
                         preg_match("/\{SUBJECT: (.*)\}\s+/", $message, $subject);
 
                         // For each instructor, customize and send the email.
-                        foreach ($role_assignments as $roleassignment) {
+                        foreach ($roleassignments as $roleassignment) {
                             // Establish patterns and replaces.
                             $recipient = $DB->get_record('user', array('id' => $roleassignment->userid));
                             $replace = array(
