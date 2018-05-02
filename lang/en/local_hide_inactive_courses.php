@@ -23,14 +23,13 @@
  */
 
 $string['email_content_desc'] = 'Email content';
-$string['email_content_subdesc'] = 'Content of the email to be sent to instructors of auto hidden courses';
-$string['email_content_default'] = "{SUBJECT: {COURSE} has been automatically hidden due to inactivity}
-
-Dear {RECIPIENT},
+$string['email_content_default'] = "Dear {RECIPIENT},
 
 Your course '{COURSE}' has been set to hidden because no users have accessed it for a long time. Please contact the help desk for more information.";
 $string['email_onoff_desc'] = 'Send email alerts';
 $string['email_onoff_subdesc'] = 'Whether or not to send email alerts to course instructors if their course is auto-hidden';
+$string['email_subject_desc'] = 'Email subject line';
+$string['email_subject_default'] = '{COURSE} has been automatically hidden due to inactivity';
 $string['hide_courses_task'] = 'Hide inactive courses';
 $string['limit_desc'] = 'Access time limit';
 $string['limit_subdesc'] = 'How long ago must the last course access have been for it to be considered inactive?';

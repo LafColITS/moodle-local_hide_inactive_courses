@@ -87,12 +87,9 @@ class hide_courses extends \core\task\scheduled_task {
                     $from->maildisplay = true; // Required to prevent Notice.
                     $from->email = $noreplyuser->email; // Required to prevent Notice.
 
-                    // Get email content.
+                    // Get email content and subject line.
                     $message = $CFG->local_hide_inactive_courses_email_content;
-
-                    // Get subject.
-                    $subject = array();
-                    preg_match("/\{SUBJECT: (.*)\}\s+/", $message, $subject);
+                    $subject = $CFG->local_hide_inactive_courses_email_subject;
 
                     // For each instructor, customize and send the email.
                     foreach ($roleassignments as $roleassignment) {
@@ -105,7 +102,7 @@ class hide_courses extends \core\task\scheduled_task {
                         );
 
                         // Replace patterns in both subject and content.
-                        $subject = preg_replace(array_keys($replace), array_values($replace), $subject[1]);
+                        $subject = preg_replace(array_keys($replace), array_values($replace), $subject);
                         $message = preg_replace(array_keys($replace), array_values($replace), $message);
 
                         // Send.
