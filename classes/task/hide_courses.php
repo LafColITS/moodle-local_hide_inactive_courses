@@ -40,78 +40,76 @@ class hide_courses extends \core\task\scheduled_task {
     public function execute() {
         global $DB, $CFG;
 
-        if ($CFG->local_hide_inactive_courses_onoff) {
-            $courses = $DB->get_records_select(
-              'course',
-              'id > 1'
-            );
-            foreach ($courses as $course) {
-                $limit = $CFG->local_hide_inactive_courses_limit;
-                $t = time() - $limit;
+        $courses = $DB->get_records_select(
+          'course',
+          'id > 1'
+        );
+        foreach ($courses as $course) {
+            $limit = $CFG->local_hide_inactive_courses_limit;
+            $t = time() - $limit;
 
-                $sql = "SELECT ac.*";
-                $sql .= " FROM {user_lastaccess} ac";
-                $sql .= " JOIN {course} c ON ac.courseid=c.id";
-                $sql .= " JOIN {enrol} e ON c.id=e.courseid";
-                $sql .= " JOIN {user_enrolments} ue ON e.id=ue.enrolid";
-                $sql .= " JOIN {user} u ON u.id=ue.userid";
-                $sql .= " WHERE c.id=$course->id";
-                $sql .= " AND ac.timeaccess > $t";
-                $sql .= " AND ac.userid=u.id";
-                $accesses = $DB->get_records_sql($sql);
+            $sql = "SELECT ac.*";
+            $sql .= " FROM {user_lastaccess} ac";
+            $sql .= " JOIN {course} c ON ac.courseid=c.id";
+            $sql .= " JOIN {enrol} e ON c.id=e.courseid";
+            $sql .= " JOIN {user_enrolments} ue ON e.id=ue.enrolid";
+            $sql .= " JOIN {user} u ON u.id=ue.userid";
+            $sql .= " WHERE c.id=$course->id";
+            $sql .= " AND ac.timeaccess > $t";
+            $sql .= " AND ac.userid=u.id";
+            $accesses = $DB->get_records_sql($sql);
 
-                if (count($accesses) == 0) {
-                    // Hide course.
-                    course_change_visibility($course->id, false);
+            if (count($accesses) == 0) {
+                // Hide course.
+                course_change_visibility($course->id, false);
 
-                    // If email is turned off, abort.
-                    if (! $CFG->local_hide_inactive_courses_email_onoff) {
-                        return;
-                    }
+                // If email is turned off, abort.
+                if (! $CFG->local_hide_inactive_courses_email_onoff) {
+                    return;
+                }
 
-                    // Email any instructors.
-                    // Find users with Teacher role.
-                    $context = $DB->get_record('context', array('instanceid' => $course->id, 'contextlevel' => 50));
-                    $roleassignments = $DB->get_records(
-                        'role_assignments',
-                        array(
-                            'contextid' => $context->id,
-                            'roleid' => 3
-                        )
-                    );
+                // Email any instructors.
+                // Find users with Teacher role.
+                $context = $DB->get_record('context', array('instanceid' => $course->id, 'contextlevel' => 50));
+                $roleassignments = $DB->get_records(
+                    'role_assignments',
+                    array(
+                        'contextid' => $context->id,
+                        'roleid' => 3
+                    )
+                );
 
-                    // If there are teachers, build an email and send it to each of them.
-                    if (count($roleassignments) > 0) {
-                        $noreplyuser = \core_user::get_noreply_user();
-                        $from = new stdClass();
-                        $from->customheaders = 'Auto-Submitted: auto-generated';
-                        $from->maildisplay = true; // Required to prevent Notice.
-                        $from->email = $noreplyuser->email; // Required to prevent Notice.
+                // If there are teachers, build an email and send it to each of them.
+                if (count($roleassignments) > 0) {
+                    $noreplyuser = \core_user::get_noreply_user();
+                    $from = new stdClass();
+                    $from->customheaders = 'Auto-Submitted: auto-generated';
+                    $from->maildisplay = true; // Required to prevent Notice.
+                    $from->email = $noreplyuser->email; // Required to prevent Notice.
 
-                        // Get email content.
-                        $message = $CFG->local_hide_inactive_courses_email_content;
+                    // Get email content.
+                    $message = $CFG->local_hide_inactive_courses_email_content;
 
-                        // Get subject.
-                        $subject = array();
-                        preg_match("/\{SUBJECT: (.*)\}\s+/", $message, $subject);
+                    // Get subject.
+                    $subject = array();
+                    preg_match("/\{SUBJECT: (.*)\}\s+/", $message, $subject);
 
-                        // For each instructor, customize and send the email.
-                        foreach ($roleassignments as $roleassignment) {
-                            // Establish patterns and replaces.
-                            $recipient = $DB->get_record('user', array('id' => $roleassignment->userid));
-                            $replace = array(
-                                '/\{RECIPIENT\}/' => fullname($recipient),
-                                '/\{COURSE\}/' => $course->fullname,
-                                '/\{SUBJECT: (.*)\}\s+/' => '',
-                            );
+                    // For each instructor, customize and send the email.
+                    foreach ($roleassignments as $roleassignment) {
+                        // Establish patterns and replaces.
+                        $recipient = $DB->get_record('user', array('id' => $roleassignment->userid));
+                        $replace = array(
+                            '/\{RECIPIENT\}/' => fullname($recipient),
+                            '/\{COURSE\}/' => $course->fullname,
+                            '/\{SUBJECT: (.*)\}\s+/' => '',
+                        );
 
-                            // Replace patterns in both subject and content.
-                            $subject = preg_replace(array_keys($replace), array_values($replace), $subject[1]);
-                            $message = preg_replace(array_keys($replace), array_values($replace), $message);
+                        // Replace patterns in both subject and content.
+                        $subject = preg_replace(array_keys($replace), array_values($replace), $subject[1]);
+                        $message = preg_replace(array_keys($replace), array_values($replace), $message);
 
-                            // Send.
-                            email_to_user($recipient, $from, $subject, $message);
-                        }
+                        // Send.
+                        email_to_user($recipient, $from, $subject, $message);
                     }
                 }
             }

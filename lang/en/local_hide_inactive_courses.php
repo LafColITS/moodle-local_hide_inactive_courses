@@ -31,9 +31,7 @@ Dear {RECIPIENT},
 Your course '{COURSE}' has been set to hidden because no users have accessed it for a long time. Please contact the help desk for more information.";
 $string['email_onoff_desc'] = 'Send email alerts';
 $string['email_onoff_subdesc'] = 'Whether or not to send email alerts to course instructors if their course is auto-hidden';
-$string['hide_courses_task'] = 'Hide Inactive Courses';
+$string['hide_courses_task'] = 'Hide inactive courses';
 $string['limit_desc'] = 'Access time limit';
 $string['limit_subdesc'] = 'How long ago must the last course access have been for it to be considered inactive?';
-$string['onoff_desc'] = 'Automatically hide inactive courses';
-$string['onoff_subdesc'] = 'Check the box to turn on or off automatic hiding of inactive courses';
-$string['pluginname'] = 'Hide Inactive Courses';
+$string['pluginname'] = 'Hide inactive courses';

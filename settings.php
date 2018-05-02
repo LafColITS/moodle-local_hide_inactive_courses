@@ -20,12 +20,6 @@ if ($hassiteconfig) {
     $pluginname = get_string('pluginname', 'local_hide_inactive_courses');
     $settings = new admin_settingpage('local_hide_inactive_courses', $pluginname);
 
-    $settings->add(new admin_setting_configcheckbox('local_hide_inactive_courses_onoff',
-        get_string('onoff_desc', 'local_hide_inactive_courses'),
-        get_string('onoff_subdesc', 'local_hide_inactive_courses'),
-        1));
-
-    // Duration.
     $settings->add(new admin_setting_configduration('local_hide_inactive_courses_limit',
         get_string('limit_desc', 'local_hide_inactive_courses'),
         get_string('limit_subdesc', 'local_hide_inactive_courses'),

@@ -128,9 +128,6 @@ Feature: Hide Inactive Courses
       | testadmin    | Test      | Admin    |
       | testteacher  | Test      | Teacher  |
       | teststudent  | Test      | Student  |
-    Given the following config values are set as admin:
-      | config                            | value |
-      | local_hide_inactive_courses_onoff | 0     |
     When I log in as "admin"
     And I am on site homepage
     And I follow "Active Course"

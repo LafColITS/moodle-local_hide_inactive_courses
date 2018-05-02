@@ -13,4 +13,5 @@ You can configure the following aspects of the plugin:
 ## Details
 
 - The plugin only counts course accesses from users who are enrolled in the course
-- The cron task runs once very day
+- The cron task starts as disabled; therefore, to enable plugin functionality, you must go to Site adminisration > Server > Scheduled tasks, and enable the task titled "Hide inactive courses"
+- The cron task is set to run once every day by default
