@@ -27,7 +27,7 @@ $string['email_content_default'] = "Dear {RECIPIENT},
 
 Your course '{COURSE}' has been set to hidden because no users have accessed it for a long time. Please contact the help desk for more information.";
 $string['email_onoff_desc'] = 'Send email alerts';
-$string['email_onoff_subdesc'] = 'Whether or not to send email alerts to course instructors if their course is auto-hidden';
+$string['email_onoff_subdesc'] = 'Whether or not to send email alerts to course instructors when their course is auto-hidden';
 $string['email_subject_desc'] = 'Email subject line';
 $string['email_subject_default'] = '{COURSE} has been automatically hidden due to inactivity';
 $string['event_course_auto_hidden'] = 'Course auto hidden';

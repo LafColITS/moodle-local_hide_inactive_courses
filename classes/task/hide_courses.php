@@ -40,14 +40,18 @@ class hide_courses extends \core\task\scheduled_task {
     public function execute() {
         global $DB, $CFG;
 
+        // Get all courses
         $courses = $DB->get_records_select(
           'course',
           'id > 1'
         );
+
+        // Loop through them and do stuff.
         foreach ($courses as $course) {
             $limit = $CFG->local_hide_inactive_courses_limit;
             $t = time() - $limit;
 
+            // Get all accesses to this course from users enrolled in the course more recent than $t.
             $sql = "SELECT ac.*";
             $sql .= " FROM {user_lastaccess} ac";
             $sql .= " JOIN {course} c ON ac.courseid=c.id";
@@ -63,7 +67,7 @@ class hide_courses extends \core\task\scheduled_task {
                 // Hide course.
                 course_change_visibility($course->id, false);
 
-                // Throw event.
+                // Trigger custom event.
                 $context = $DB->get_record('context', array('instanceid' => $course->id, 'contextlevel' => 50));
                 $event = \local_hide_inactive_courses\event\course_auto_hidden::create(array(
                     'contextid' => $context->id,
@@ -73,12 +77,11 @@ class hide_courses extends \core\task\scheduled_task {
                 ));
                 $event->trigger();
 
-                // If email is turned off, abort.
+                // If email is turned off, abort now.
                 if (! $CFG->local_hide_inactive_courses_email_onoff) {
                     return;
                 }
 
-                // Email any instructors.
                 // Find users with Teacher role.
                 $roleassignments = $DB->get_records(
                     'role_assignments',
@@ -107,7 +110,6 @@ class hide_courses extends \core\task\scheduled_task {
                         $replace = array(
                             '/\{RECIPIENT\}/' => fullname($recipient),
                             '/\{COURSE\}/' => $course->fullname,
-                            '/\{SUBJECT: (.*)\}\s+/' => '',
                         );
 
                         // Replace patterns in both subject and content.
