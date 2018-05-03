@@ -40,7 +40,7 @@ class hide_courses extends \core\task\scheduled_task {
     public function execute() {
         global $DB, $CFG;
 
-        // Get all courses
+        // Get all courses.
         $courses = $DB->get_records_select(
           'course',
           'id > 1'
