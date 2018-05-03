@@ -35,7 +35,6 @@ class course_auto_hidden extends \core\event\base {
      */
     public function get_description() {
         $courseid = $this->data['courseid'];
-        $coursename = $this->data['other']['coursename'];
         return "The course with id '$courseid' has been automatically hidden by the Hide Inactive Courses plugin.";
     }
 
