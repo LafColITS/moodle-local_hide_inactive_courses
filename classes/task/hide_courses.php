@@ -62,7 +62,7 @@ class hide_courses extends \core\task\scheduled_task {
             if (count($accesses) == 0) {
                 // Hide course.
                 course_change_visibility($course->id, false);
-                
+
                 // Throw event.
                 $context = $DB->get_record('context', array('instanceid' => $course->id, 'contextlevel' => 50));
                 $event = \local_hide_inactive_courses\event\course_auto_hidden::create(array(

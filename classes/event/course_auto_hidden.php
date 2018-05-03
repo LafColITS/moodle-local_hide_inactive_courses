@@ -21,9 +21,9 @@
  * @copyright  2018 onwards Lafayette College ITS
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 namespace local_hide_inactive_courses\event;
- 
+
 defined('MOODLE_INTERNAL') || die();
 
 class course_auto_hidden extends \core\event\base {
@@ -37,7 +37,7 @@ class course_auto_hidden extends \core\event\base {
         $courseid = $this->data['courseid'];
         $coursename = $this->data['other']['coursename'];
         return "The course with id '$courseid' has been automatically hidden by the Hide Inactive Courses plugin.";
-    }    
+    }
 
     /**
      * Return localised event name.
@@ -47,7 +47,7 @@ class course_auto_hidden extends \core\event\base {
     public static function get_name() {
         return get_string('event_course_auto_hidden', 'local_hide_inactive_courses');
     }
-    
+
     /**
      * Init method.
      *
