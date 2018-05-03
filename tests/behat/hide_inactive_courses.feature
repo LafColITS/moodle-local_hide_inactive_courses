@@ -2,7 +2,7 @@
 Feature: Hide Inactive Courses
 
   @javascript
-  Scenario: Has been visited by enrolled user
+  Scenario: Has been visited by enrolled user (no auto hide)
     Given the following "courses" exist:
       | fullname        | shortname      | numsections | id |
       | Inactive Course | inactivecourse | 44          | 23 |
@@ -60,7 +60,7 @@ Feature: Hide Inactive Courses
     And I should see "Active Course"
 
   @javascript
-  Scenario: Has not been visited by enrolled user
+  Scenario: Has not been visited by enrolled user (auto hide)
     Given the following "courses" exist:
       | fullname        | shortname      | numsections | id |
       | Inactive Course | inactivecourse | 44          | 23 |
@@ -116,3 +116,10 @@ Feature: Hide Inactive Courses
     And I am on site homepage
     Then I should not see "Inactive Course"
     And I should see "Active Course"
+    And I log out
+
+    When I log in as "admin"
+    And I am on site homepage
+    And I navigate to "Logs" node in "Site administration>Reports>Reports"
+    And I press "Get these logs"
+    Then I should see "The course with id '23' has been automatically hidden by the Hide Inactive Courses plugin."
