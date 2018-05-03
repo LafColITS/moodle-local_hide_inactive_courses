@@ -105,10 +105,11 @@ Feature: Hide Inactive Courses
     When I log in as "admin"
     And I run the scheduled task "\local_hide_inactive_courses\task\hide_courses"
     And I am on site homepage
-    And I am on site homepage
     When I navigate to "Events list" node in "Site administration>Reports>Reports"
     Then I should see "Course auto hidden"
     And I navigate to "Logs" node in "Site administration>Reports>Reports"
+    And I set the field "menuedulevel" to "Other"
+    And I set the field "menumodaction" to "Update"
     When I press "Get these logs"
     Then I should see "The course with id '"
     And I should see "' has been automatically hidden by the Hide Inactive Courses plugin."
