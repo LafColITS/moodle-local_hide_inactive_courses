@@ -62,6 +62,16 @@ class hide_courses extends \core\task\scheduled_task {
             if (count($accesses) == 0) {
                 // Hide course.
                 course_change_visibility($course->id, false);
+                
+                // Throw event.
+                $context = $DB->get_record('context', array('instanceid' => $course->id, 'contextlevel' => 50));
+                $event = \local_hide_inactive_courses\event\course_auto_hidden::create(array(
+                    'contextid' => $context->id,
+                    'other' => array(
+                        'coursename' => $course->fullname
+                    )
+                ));
+                $event->trigger();
 
                 // If email is turned off, abort.
                 if (! $CFG->local_hide_inactive_courses_email_onoff) {
@@ -70,7 +80,6 @@ class hide_courses extends \core\task\scheduled_task {
 
                 // Email any instructors.
                 // Find users with Teacher role.
-                $context = $DB->get_record('context', array('instanceid' => $course->id, 'contextlevel' => 50));
                 $roleassignments = $DB->get_records(
                     'role_assignments',
                     array(

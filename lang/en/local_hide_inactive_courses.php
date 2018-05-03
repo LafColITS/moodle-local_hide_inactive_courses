@@ -30,6 +30,7 @@ $string['email_onoff_desc'] = 'Send email alerts';
 $string['email_onoff_subdesc'] = 'Whether or not to send email alerts to course instructors if their course is auto-hidden';
 $string['email_subject_desc'] = 'Email subject line';
 $string['email_subject_default'] = '{COURSE} has been automatically hidden due to inactivity';
+$string['event_course_auto_hidden'] = 'Course auto hidden';
 $string['hide_courses_task'] = 'Hide inactive courses';
 $string['limit_desc'] = 'Access time limit';
 $string['limit_subdesc'] = 'How long ago must the last course access have been for it to be considered inactive?';
