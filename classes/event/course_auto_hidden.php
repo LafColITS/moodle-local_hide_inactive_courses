@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Custom event with descriptive log message.
  *
  * @package    local_hide_inactive_courses
  * @copyright  2018 onwards Lafayette College ITS
