@@ -17,7 +17,7 @@
 /**
  * MOODLE VERSION INFORMATION
  *
- * This file contains version information for the Temporary Enrolment Module by Andrew Zito
+ * This file contains version information for the Hide Inactive Courses plugin by Andrew Zito
  *
  * @package    local_hide_inactive_courses
  * @copyright  2018 onwards Lafayette College ITS
