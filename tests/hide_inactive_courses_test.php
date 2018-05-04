@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Tests for local_temporary_enrolments
+ * Tests for the Hide Inactive Courses plugin.
  *
- * @package    local_temporary_enrolments
+ * @package    local_hide_inactive_courses
  * @category   phpunit
  * @copyright  2018 onwards Lafayette College ITS
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

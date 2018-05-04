@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Scheduled task to hide inactive courses.
  *
  * @package    local_hide_inactive_courses
  * @copyright  2018 onwards Lafayette College ITS
