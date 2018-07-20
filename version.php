@@ -26,7 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2018042700;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2018042734;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2017051500;        // Requires this Moodle version.
 $plugin->component = 'local_hide_inactive_courses';  // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_ALPHA;
