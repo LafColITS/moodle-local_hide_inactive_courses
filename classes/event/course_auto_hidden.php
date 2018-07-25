@@ -33,7 +33,7 @@ class course_auto_hidden extends \core\event\base {
      *
      * @return string
      */
-    public function get_description() {
+    public function get_description() : string {
         $courseid = $this->data['courseid'];
         return "The course with id '$courseid' has been automatically hidden by the Hide Inactive Courses plugin.";
     }
@@ -43,7 +43,7 @@ class course_auto_hidden extends \core\event\base {
      *
      * @return string
      */
-    public static function get_name() {
+    public static function get_name() : string {
         return get_string('event_course_auto_hidden', 'local_hide_inactive_courses');
     }
 

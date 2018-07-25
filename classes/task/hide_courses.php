@@ -25,7 +25,9 @@
 namespace local_hide_inactive_courses\task;
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot. '/course/lib.php');
+
 use stdClass;
 
 /**
@@ -33,7 +35,7 @@ use stdClass;
  */
 class hide_courses extends \core\task\scheduled_task {
 
-    public function get_name() {
+    public function get_name() : string {
         return get_string('hide_courses_task', 'local_hide_inactive_courses');
     }
 
@@ -68,13 +70,13 @@ class hide_courses extends \core\task\scheduled_task {
                 course_change_visibility($course->id, false);
 
                 // Trigger custom event.
-                $context = $DB->get_record('context', array('instanceid' => $course->id, 'contextlevel' => 50));
-                $event = \local_hide_inactive_courses\event\course_auto_hidden::create(array(
+                $context = $DB->get_record('context', ['instanceid' => $course->id, 'contextlevel' => 50]);
+                $event = \local_hide_inactive_courses\event\course_auto_hidden::create([
                     'contextid' => $context->id,
-                    'other' => array(
+                    'other' => [
                         'coursename' => $course->fullname
-                    )
-                ));
+                    ]
+                ]);
                 $event->trigger();
 
                 // If email is turned off, abort now.
@@ -85,10 +87,10 @@ class hide_courses extends \core\task\scheduled_task {
                 // Find users with Teacher role.
                 $roleassignments = $DB->get_records(
                     'role_assignments',
-                    array(
+                    [
                         'contextid' => $context->id,
                         'roleid' => 3
-                    )
+                    ]
                 );
 
                 // If there are teachers, build an email and send it to each of them.
@@ -106,11 +108,11 @@ class hide_courses extends \core\task\scheduled_task {
                     // For each instructor, customize and send the email.
                     foreach ($roleassignments as $roleassignment) {
                         // Establish patterns and replaces.
-                        $recipient = $DB->get_record('user', array('id' => $roleassignment->userid));
-                        $replace = array(
+                        $recipient = $DB->get_record('user', ['id' => $roleassignment->userid]);
+                        $replace = [
                             '/\{RECIPIENT\}/' => fullname($recipient),
                             '/\{COURSE\}/' => $course->fullname,
-                        );
+                        ];
 
                         // Replace patterns in both subject and content.
                         $subject = preg_replace(array_keys($replace), array_values($replace), $subject);
