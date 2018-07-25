@@ -39,7 +39,7 @@ class local_hide_inactive_courses_testcase extends advanced_testcase {
      *
      * @return void
      */
-    public function emailHas($email, $body, $subject, $to) {
+    public function emailhas($email, $body, $subject, $to) {
         $this->assertContains('Auto-Submitted: auto-generated', $email->header);
         $this->assertContains('noreply@', $email->from);
         foreach ($body as $s) {
