@@ -100,7 +100,7 @@ class local_hide_inactive_courses_testcase extends advanced_testcase {
         $subject = 'Elementary Paste Eating has been automatically hidden due to inactivity';
         $this->emailHas($results[0], $body, $subject, 'teacher@');
 
-        set_config('local_hide_inactive_courses_email_onoff', 0);
+        set_config('email_onoff', 0, 'local_hide_inactive_courses');
 
         $sink = $this->redirectEmails();
         $task->execute();

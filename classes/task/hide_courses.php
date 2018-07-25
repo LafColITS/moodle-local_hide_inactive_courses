@@ -54,7 +54,7 @@ class hide_courses extends \core\task\scheduled_task {
      * @return string
      */
     public function execute() {
-        global $DB, $CFG;
+        global $DB;
 
         // Get all courses.
         $courses = $DB->get_records_select(
@@ -64,7 +64,7 @@ class hide_courses extends \core\task\scheduled_task {
 
         // Loop through them and do stuff.
         foreach ($courses as $course) {
-            $limit = $CFG->local_hide_inactive_courses_limit;
+            $limit = get_config('local_hide_inactive_courses', 'limit');
             $t = time() - $limit;
 
             // Get all accesses to this course from users enrolled in the course more recent than $t.
@@ -94,7 +94,7 @@ class hide_courses extends \core\task\scheduled_task {
                 $event->trigger();
 
                 // If email is turned off, abort now.
-                if (! $CFG->local_hide_inactive_courses_email_onoff) {
+                if (! get_config('local_hide_inactive_courses', 'email_onoff')) {
                     return;
                 }
 
@@ -116,8 +116,8 @@ class hide_courses extends \core\task\scheduled_task {
                     $from->email = $noreplyuser->email; // Required to prevent Notice.
 
                     // Get email content and subject line.
-                    $message = $CFG->local_hide_inactive_courses_email_content;
-                    $subject = $CFG->local_hide_inactive_courses_email_subject;
+                    $message = get_config('local_hide_inactive_courses', 'email_content');
+                    $subject = get_config('local_hide_inactive_courses', 'email_subject');
 
                     // For each instructor, customize and send the email.
                     foreach ($roleassignments as $roleassignment) {

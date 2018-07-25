@@ -28,26 +28,26 @@ if ($hassiteconfig) {
     $pluginname = get_string('pluginname', 'local_hide_inactive_courses');
     $settings = new admin_settingpage('local_hide_inactive_courses', $pluginname);
 
-    $settings->add(new admin_setting_configduration('local_hide_inactive_courses_limit',
+    $settings->add(new admin_setting_configduration('local_hide_inactive_courses/limit',
         get_string('limit_desc', 'local_hide_inactive_courses'),
         get_string('limit_subdesc', 'local_hide_inactive_courses'),
         $defaultsetting = 31536000,
         $defaultunit = 604800)
     );
 
-    $settings->add(new admin_setting_configcheckbox('local_hide_inactive_courses_email_onoff',
+    $settings->add(new admin_setting_configcheckbox('local_hide_inactive_courses/email_onoff',
         get_string('email_onoff_desc', 'local_hide_inactive_courses'),
         get_string('email_onoff_subdesc', 'local_hide_inactive_courses'),
         1)
     );
 
-    $settings->add(new admin_setting_configtext('local_hide_inactive_courses_email_subject',
+    $settings->add(new admin_setting_configtext('local_hide_inactive_courses/email_subject',
         get_string('email_subject_desc', 'local_hide_inactive_courses'),
         '',
         get_string('email_subject_default', 'local_hide_inactive_courses'))
     );
 
-    $settings->add(new admin_setting_configtextarea('local_hide_inactive_courses_email_content',
+    $settings->add(new admin_setting_configtextarea('local_hide_inactive_courses/email_content',
         get_string('email_content_desc', 'local_hide_inactive_courses'),
         '',
         get_string('email_content_default', 'local_hide_inactive_courses'))
