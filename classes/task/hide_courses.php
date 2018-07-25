@@ -25,20 +25,36 @@
 namespace local_hide_inactive_courses\task;
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot. '/course/lib.php');
+
 use stdClass;
 
 /**
  * Scheduled task (cron task) that checks all courses, and if they haven't been accessed within the time limit, hides them.
+ *
+ * @copyright  2018 onwards Lafayette College ITS
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class hide_courses extends \core\task\scheduled_task {
 
-    public function get_name() {
+    /**
+     * Returns name of scheduled task.
+     *
+     * @return string
+     */
+    public function get_name() : string {
         return get_string('hide_courses_task', 'local_hide_inactive_courses');
     }
 
+    /**
+     * Find all courses with no activity inside time limit, hide them,
+     * and send out email alerts (if enabled).
+     *
+     * @return string
+     */
     public function execute() {
-        global $DB, $CFG;
+        global $DB;
 
         // Get all courses.
         $courses = $DB->get_records_select(
@@ -48,7 +64,7 @@ class hide_courses extends \core\task\scheduled_task {
 
         // Loop through them and do stuff.
         foreach ($courses as $course) {
-            $limit = $CFG->local_hide_inactive_courses_limit;
+            $limit = get_config('local_hide_inactive_courses', 'limit');
             $t = time() - $limit;
 
             // Get all accesses to this course from users enrolled in the course more recent than $t.
@@ -68,27 +84,27 @@ class hide_courses extends \core\task\scheduled_task {
                 course_change_visibility($course->id, false);
 
                 // Trigger custom event.
-                $context = $DB->get_record('context', array('instanceid' => $course->id, 'contextlevel' => 50));
-                $event = \local_hide_inactive_courses\event\course_auto_hidden::create(array(
+                $context = $DB->get_record('context', ['instanceid' => $course->id, 'contextlevel' => 50]);
+                $event = \local_hide_inactive_courses\event\course_auto_hidden::create([
                     'contextid' => $context->id,
-                    'other' => array(
+                    'other' => [
                         'coursename' => $course->fullname
-                    )
-                ));
+                    ]
+                ]);
                 $event->trigger();
 
                 // If email is turned off, abort now.
-                if (! $CFG->local_hide_inactive_courses_email_onoff) {
+                if (! get_config('local_hide_inactive_courses', 'email_onoff')) {
                     return;
                 }
 
                 // Find users with Teacher role.
                 $roleassignments = $DB->get_records(
                     'role_assignments',
-                    array(
+                    [
                         'contextid' => $context->id,
                         'roleid' => 3
-                    )
+                    ]
                 );
 
                 // If there are teachers, build an email and send it to each of them.
@@ -100,17 +116,17 @@ class hide_courses extends \core\task\scheduled_task {
                     $from->email = $noreplyuser->email; // Required to prevent Notice.
 
                     // Get email content and subject line.
-                    $message = $CFG->local_hide_inactive_courses_email_content;
-                    $subject = $CFG->local_hide_inactive_courses_email_subject;
+                    $message = get_config('local_hide_inactive_courses', 'email_content');
+                    $subject = get_config('local_hide_inactive_courses', 'email_subject');
 
                     // For each instructor, customize and send the email.
                     foreach ($roleassignments as $roleassignment) {
                         // Establish patterns and replaces.
-                        $recipient = $DB->get_record('user', array('id' => $roleassignment->userid));
-                        $replace = array(
+                        $recipient = $DB->get_record('user', ['id' => $roleassignment->userid]);
+                        $replace = [
                             '/\{RECIPIENT\}/' => fullname($recipient),
                             '/\{COURSE\}/' => $course->fullname,
-                        );
+                        ];
 
                         // Replace patterns in both subject and content.
                         $subject = preg_replace(array_keys($replace), array_values($replace), $subject);
