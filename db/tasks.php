@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$tasks = array(
-    array(
+$tasks = [
+    [
         'classname' => 'local_hide_inactive_courses\task\hide_courses',
         'blocking' => 0,
         'minute' => '0',
@@ -34,5 +34,5 @@ $tasks = array(
         'dayofweek' => '*',
         'month' => '*',
         'disabled' => 1
-    ),
-);
+    ],
+];
