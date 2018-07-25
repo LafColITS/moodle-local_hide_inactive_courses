@@ -59,21 +59,21 @@ class local_hide_inactive_courses_testcase extends advanced_testcase {
         global $DB;
 
         // Test teacher user.
-        $teacher = $this->getDataGenerator()->create_user([
+        $teacher = $this->getDataGenerator()->create_user(array(
             'username'  => 'teacher',
             'email'     => 'teacher@example.com',
             'firstname' => 'Teacher',
             'lastname'  => 'Smith',
-        ]);
+        ));
 
         // Test course.
-        $course = $this->getDataGenerator()->create_course([
+        $course = $this->getDataGenerator()->create_course(array(
             'shortname' => 'testcourse',
             'fullname' => 'Elementary Paste Eating'
-        ]);
+        ));
 
         // Manual enrolment entry.
-        $manualenrol = $DB->get_record('enrol', ['enrol' => 'manual', 'courseid' => $course->id]);
+        $manualenrol = $DB->get_record('enrol', array('enrol' => 'manual', 'courseid' => $course->id));
 
         // Manual enrolment plugin (will use manual enrolment entry to enrol users in course context).
         $enrolplugin = new enrol_manual_plugin();
@@ -93,10 +93,10 @@ class local_hide_inactive_courses_testcase extends advanced_testcase {
 
         $this->assertEquals(1, count($results));
 
-        $body = [
+        $body = array(
             'Dear Teacher',
             "Your course 'Elementary Paste Eating' has been set to hidden because no users have accessed it for a long time."
-        ];
+        );
         $subject = 'Elementary Paste Eating has been automatically hidden due to inactivity';
         $this->emailHas($results[0], $body, $subject, 'teacher@');
 
