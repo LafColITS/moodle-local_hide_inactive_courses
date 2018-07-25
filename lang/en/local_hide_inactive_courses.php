@@ -35,3 +35,4 @@ $string['hide_courses_task'] = 'Hide inactive courses';
 $string['limit_desc'] = 'Access time limit';
 $string['limit_subdesc'] = 'How long ago must the last course access have been for it to be considered inactive?';
 $string['pluginname'] = 'Hide inactive courses';
+$string['privacy:metadata'] = 'The Hide Inactive Courses plugin does not store any personal user data.';
