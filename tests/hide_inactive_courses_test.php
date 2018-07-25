@@ -14,24 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Tests for the Hide Inactive Courses plugin.
- *
- * @package    local_hide_inactive_courses
- * @category   phpunit
- * @copyright  2018 onwards Lafayette College ITS
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot. '/enrol/flatfile/lib.php');
+
 use local_hide_inactive_courses\task\hide_courses;
 
+/**
+ * Tests for the Hide Inactive Courses plugin.
+ *
+ * @package    local_hide_inactive_courses
+ * @copyright  2018 onwards Lafayette College ITS
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class local_hide_inactive_courses_testcase extends advanced_testcase {
     /**
      * Check email contents
+     *
+     * @param object $email Object containing the email data to check
+     * @param array $body Target strings in email body
+     * @param string $subject Target email subject
+     * @param string $to Target 'to' address
      *
      * @return void
      */

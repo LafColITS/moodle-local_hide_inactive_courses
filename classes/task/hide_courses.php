@@ -32,13 +32,27 @@ use stdClass;
 
 /**
  * Scheduled task (cron task) that checks all courses, and if they haven't been accessed within the time limit, hides them.
+ *
+ * @copyright  2018 onwards Lafayette College ITS
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class hide_courses extends \core\task\scheduled_task {
 
+    /**
+     * Returns name of scheduled task.
+     *
+     * @return string
+     */
     public function get_name() : string {
         return get_string('hide_courses_task', 'local_hide_inactive_courses');
     }
 
+    /**
+     * Find all courses with no activity inside time limit, hide them,
+     * and send out email alerts (if enabled).
+     *
+     * @return string
+     */
     public function execute() {
         global $DB, $CFG;
 

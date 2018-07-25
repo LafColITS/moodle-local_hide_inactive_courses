@@ -26,6 +26,9 @@ namespace local_hide_inactive_courses\event;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Custom event class to record a course being automatically hidden.
+ */
 class course_auto_hidden extends \core\event\base {
 
     /**
