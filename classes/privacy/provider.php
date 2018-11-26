@@ -25,7 +25,12 @@
 namespace local_hide_inactive_courses\privacy;
 
 defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Moodle privacy provider class.
+ *
+ * @copyright  2018 onwards Lafayette College ITS
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class provider implements
     // This plugin does not store any personal user data.
     \core_privacy\local\metadata\null_provider {
