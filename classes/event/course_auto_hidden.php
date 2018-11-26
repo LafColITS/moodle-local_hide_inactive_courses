@@ -28,9 +28,17 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Custom event class to record a course being automatically hidden.
+ *
+ * @copyright  2018 onwards Lafayette College ITS
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_auto_hidden extends \core\event\base {
 
+    /**
+     * Returns description of what happened.
+     *
+     * @return string
+     */
     public function get_description() : string {
         $courseid = $this->data['courseid'];
         return "The course with id '$courseid' has been automatically hidden by the Hide Inactive Courses plugin.";
