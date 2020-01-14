@@ -1,5 +1,7 @@
 # Moodle Local Hide Inactive Courses
 
+[RETIRED] This plugin is no longer maintained and there will be no further releases.
+
 This plugin adds a scheduled task which automatically hides any courses which have not been accessed for a configurable time period. It also sends an email alert to any Teachers in a course when that course is auto-hidden.
 
 ## Installation
